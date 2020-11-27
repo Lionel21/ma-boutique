@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,22 +34,25 @@ class RegisterType extends AbstractType
                 'attr' => [
                     'placeholder' => 'email@hotmail.com'
                 ]
-            ]) // Input
-            ->add('password', PasswordType::class, [
+            ])
+            // RepeatedType => permet pour une même propriété de générer deux champs différents qui ont le même contenu
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques.',
                 'label' => 'Votre mot de passe',
-                'attr'=> [
-                    'placeholder' => 'Merci de saisir un mot de passe'
-                ]
+                'required' => true,
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmez votre mot de passe']
             ])
             // Confirmatin mot de passe
-            ->add('password_confirm', PasswordType::class, [
-                'label' => 'Confirmez votre mot de passe',
-                // Ne pas lier la propriété à l'entité User
-                'mapped' => false,
-                'attr' => [
-                    'placeholder' => 'Confirmez votre mot de passe'
-                ]
-            ])
+//            ->add('password_confirm', PasswordType::class, [
+//                'label' => 'Confirmez votre mot de passe',
+//                // Ne pas lier la propriété à l'entité User
+//                'mapped' => false,
+//                'attr' => [
+//                    'placeholder' => 'Confirmez votre mot de passe'
+//                ]
+//            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire'
             ])
