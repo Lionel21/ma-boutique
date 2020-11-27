@@ -23,7 +23,10 @@ class RegisterType extends AbstractType
                 'label' => 'Votre prénom',
                 'constraints' => [
                     new NotBlank(),
-                    new Length(4)
+                    new Length( [
+                        'min' => 1,
+                        'max' => 30
+                    ])
                 ],
                 'attr' => [
                     'placeholder' => 'John'
@@ -47,8 +50,16 @@ class RegisterType extends AbstractType
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques.',
                 'label' => 'Votre mot de passe',
                 'required' => true,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmez votre mot de passe']
+                'first_options' => ['label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Merci de saisir votre mot de passe.'
+                    ]
+                ],
+                'second_options' => ['label' => 'Confirmez votre mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Merci de confirmer votre mot de passe.'
+                    ]
+                ],
             ])
             // Confirmatin mot de passe
 //            ->add('password_confirm', PasswordType::class, [
@@ -61,8 +72,7 @@ class RegisterType extends AbstractType
 //            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
