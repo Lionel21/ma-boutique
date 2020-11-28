@@ -36,4 +36,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
 #         - { path: ^/admin, roles: ROLE_ADMIN }
+#        Toutes les url qui commencent par /compte doivent obligatoirement
+#        avoir le ROLE_USER
          - { path: ^/compte, roles: ROLE_USER }
