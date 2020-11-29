@@ -9,7 +9,6 @@ body {
 .footer__custom {
     text-align: center;
     position: absolute;
-    bottom: 0;
     width: 100%;
     background-color: #dfeaff;
     padding-top: 2.5rem;

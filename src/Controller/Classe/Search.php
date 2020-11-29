@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classe;
+namespace App\Controller\Classe;
 
 use App\Entity\Category;
 
@@ -8,6 +8,7 @@ use App\Entity\Category;
  * Class Search
  * @package App\Classe
  * Propriétés publiques
+ * Objet qui représente la recherche effectuée par les utilisateurs
  */
 class Search
 {
