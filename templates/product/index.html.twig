@@ -4,22 +4,34 @@
 
 {% block content %}
 
-    <h1>Nos produits</h1>
+    <div class="row">
+        <div class="col-md-3">
 
-    <div class="row product-container">
+            <h3>Filtrer</h3>
+            {{ form(form) }}
+        </div>
 
-        {% for product in products %}
-            <div class="col-md-4">
-                <div class="product-item">
-                    <a href="{{ path('product', {'slug' : product.slug}) }}"><img src="{{ asset('uploads/images/products/index.jpg') }}" alt="{{ product.name }}"></a>
-                    <h5 class="product-name">{{ product.name }}</h5>
-                    <span class="product-subtitle">{{ product.subtitle }}</span>
-                    <span class="product-price">{{ (product.price / 100)|number_format(2, ',', '.') }} €</span>
-                </div>
+        <div class="col-md-9">
+            <h3>Nos produits</h3>
+
+            <div class="row product-container">
+                {% for product in products %}
+                    <div class="col-md-4">
+                        <div class="product-item">
+                            <a href="{{ path('product', {'slug' : product.slug}) }}"><img
+                                        src="{{ asset('uploads/images/products/index.jpg') }}" alt="{{ product.name }}"></a>
+                            <h5 class="product-name">{{ product.name }}</h5>
+                            <span class="product-subtitle">{{ product.subtitle }}</span>
+                            <span class="product-price">{{ (product.price / 100)|number_format(2, ',', '.') }} €</span>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        </div>
 
     </div>
+
+
 
 
 {% endblock %}

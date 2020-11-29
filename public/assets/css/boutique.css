@@ -1,11 +1,14 @@
+body {
+    position: relative;
+}
+
 .navbar__item-custom, .navbar__item-custom a {
     color: #fff;
 }
 
 .footer__custom {
     text-align: center;
-    position: fixed;
-    bottom: 0;
+    position: absolute;
     width: 100%;
     background-color: #dfeaff;
     padding-top: 2.5rem;
