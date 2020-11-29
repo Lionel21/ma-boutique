@@ -32,7 +32,8 @@ class ProductCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads/images/products')
                 // J'indique à EasyAdmin où chercher les images
                 ->setBasePath('uploads/images/products')
-                ->setUploadedFileNamePattern('[contenthash].[extension]'),
+                ->setUploadedFileNamePattern('[contenthash].[extension]')
+                ->setFormTypeOptions(['required' => false]),
             TextField::new('subtitle'),
             TextareaField::new('description'),
             // Type pour les prix

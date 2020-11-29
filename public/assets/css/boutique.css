@@ -10,3 +10,34 @@
     background-color: #dfeaff;
     padding-top: 2.5rem;
 }
+
+.product-container {
+    margin-bottom: 10rem;
+}
+
+.product-item {
+    margin-top: 2.5rem;
+}
+
+.product-item h5 {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    margin-bottom: 1px;
+}
+
+.product-item .product-subtitle {
+    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-item .product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Single product */
+
+.product-page-price {
+    font-size: 1.5rem;
+}
