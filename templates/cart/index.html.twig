@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Mon panier - Ma Boutique{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Mon panier </h1>
+    <p>Retrouver l'ensemble des produits que vous avez ajouté à votre panier.</p>
+    <hr>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/lioneldelamare/Documents/Projets développement web/Ma Boutique/ma-boutique/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/lioneldelamare/Documents/Projets développement web/Ma Boutique/ma-boutique/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <p>Mon panier</p>
+
+
+    <table class="table mt-3">
+        <thead>
+        <tr>
+            <th scope="col">Produit</th>
+            <th scope="col"></th>
+            <th scope="col">Quantité</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- Déclaration d'une nouvelle variable Twig pour calculer le prix total d'un panier --->
+        {% set total = null %}
+
+        {% for product in cart %}
+            <tr>
+                <!-- Le nom 'product' représente la clé --->
+                <th>
+                    <img src="/uploads/images/products/{{ product.product.illustration }}"
+                         alt="{{ product.product.name }}" height="50px"> <br/>
+                </th>
+                <td>
+                    {{ product.product.name }} <br/>
+                    <small>{{ product.product.subtitle }}</small>
+                </td>
+                <td>x {{ product.quantity }}</td>
+                <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} €</td>
+                <td>{{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', '.') }} €</td>
+            </tr>
+            {% set total = total + (product.product.price * product.quantity) %}
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <div class="text-right mb-5 ">
+        <!-- Affichage total du nombre de produits --->
+        <b>Nombre de produits : </b> {{ cart|length }} <br/>
+        <b>Total de mon panier : </b> {{ (total / 100)|number_format(2, ',', '.') }} € <br/>
+        <a href="" class="btn btn-primary ">Valider mon panier</a>
+    </div>
+
 {% endblock %}
