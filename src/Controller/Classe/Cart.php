@@ -2,6 +2,8 @@
 
 namespace App\Controller\Classe;
 
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Cart
@@ -13,8 +15,9 @@ class Cart
      * @param SessionInterface $session
      * Utilisation de la méthode SessionInterface pour gérer nos sessions
      */
-    public function __construct(SessionInterface $session)
+    public function __construct(EntityManagerInterface $entityManager, SessionInterface $session)
     {
+        $this->entityManager = $entityManager;
         $this->session = $session;
     }
 
@@ -57,6 +60,7 @@ class Cart
 
     public function delete($id)
     {
+        // On récupère notre cart
         $cart = $this->session->get('cart', []);
 
         // On retire tu tableau cart l'entrée cart correspondant à l'id que l'on souhaite supprimer
@@ -64,6 +68,50 @@ class Cart
 
         // Set du nouveau cart après suppression d'un produit
         return $this->session->set('cart', $cart);
+    }
+
+    public function decrease($id)
+    {
+        $cart = $this->session->get('cart', []);
+        if ($cart[$id] > 1) {
+            // Retirer une quantité
+            $cart[$id]--;
+
+        } else {
+            // Supprimer mon produit
+            unset($cart[$id]);
+        }
+
+        // Retour à ma session cart avec le nouveau panier
+        return $this->session->set('cart', $cart);
+    }
+
+    public function getFullCart()
+    {
+        $cartComplete = [];
+
+        // Si un panier est retourné
+        if ($this->get()) {
+            // Itération pour avoir accès à tout mon objet Product
+            foreach ($this->get() as $id => $quantity) {
+                $product_object = $this->entityManager->getRepository(Product::class)->findOneById($id);
+
+                // Si le produit n'existe pas => le supprimer directement de la session
+                if (!$product_object) {
+                    $this->delete($id);
+                    continue;
+                }
+
+                $cartComplete[] = [
+                    // Appel de l'objet Product
+                    'product' => $product_object,
+                    'quantity' => $quantity
+                ];
+            }
+        }
+
+        return $cartComplete;
+
     }
 
 }
