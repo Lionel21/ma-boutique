@@ -19,6 +19,7 @@
             <th scope="col">Quantité</th>
             <th scope="col">Prix</th>
             <th scope="col">Total</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,11 @@
                 <td>x {{ product.quantity }}</td>
                 <td>{{ (product.product.price / 100)|number_format(2, ',', '.') }} €</td>
                 <td>{{ ((product.product.price * product.quantity) / 100)|number_format(2, ',', '.') }} €</td>
+                <td>
+                    <a href="">
+                        <img src="{{ asset('assets/images/delete.png') }}" height="20px" alt="Supprimer mon produit">
+                    </a>
+                </td>
             </tr>
             {% set total = total + (product.product.price * product.quantity) %}
 
@@ -52,7 +58,7 @@
         <!-- Affichage total du nombre de produits --->
         <b>Nombre de produits : </b> {{ cart|length }} <br/>
         <b>Total de mon panier : </b> {{ (total / 100)|number_format(2, ',', '.') }} € <br/>
-        <a href="" class="btn btn-primary ">Valider mon panier</a>
+        <a href="" class="btn btn-primary mt-3">Valider mon panier</a>
     </div>
 
 {% endblock %}
