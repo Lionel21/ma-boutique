@@ -12,6 +12,7 @@ body {
     width: 100%;
     background-color: #dfeaff;
     padding-top: 2.5rem;
+    margin-top: 5rem;
 }
 
 .product-container {
@@ -43,4 +44,9 @@ body {
 
 .product-page-price {
     font-size: 1.5rem;
+}
+
+.cart-icon {
+    height: 20px;
+    padding-left: 20px;
 }
