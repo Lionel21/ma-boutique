@@ -37,6 +37,7 @@ class Cart
             $cart[$id] = 1;
         }
 
+        // Set du panier
         $this->session->set('cart', $cart);
     }
 
@@ -52,6 +53,17 @@ class Cart
     public function remove()
     {
         return $this->session->remove('cart');
+    }
+
+    public function delete($id)
+    {
+        $cart = $this->session->get('cart', []);
+
+        // On retire tu tableau cart l'entrée cart correspondant à l'id que l'on souhaite supprimer
+        unset($cart[$id]);
+
+        // Set du nouveau cart après suppression d'un produit
+        return $this->session->set('cart', $cart);
     }
 
 }

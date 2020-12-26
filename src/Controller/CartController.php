@@ -64,4 +64,16 @@ class CartController extends AbstractController
         // Redirection vers les produits
         return $this->redirectToRoute('products');
     }
+
+    /**
+     * @Route("/cart/delete/{id}", name="delete_to_cart")
+     * Méthode pour supprimer un produit à la fois
+     */
+    public function delete(Cart $cart, $id)
+    {
+        $cart->delete($id);
+
+        // Redirection vers les produits
+        return $this->redirectToRoute('cart');
+    }
 }
