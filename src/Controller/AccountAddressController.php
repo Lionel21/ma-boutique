@@ -15,4 +15,12 @@ class AccountAddressController extends AbstractController
     {
         return $this->render('account/address.html.twig');
     }
+
+    /**
+     * @Route("/compte/ajouter-une-adresse", name="account_address_add")
+     */
+    public function add(): Response
+    {
+        return $this->render('account/address_add.html.twig');
+    }
 }
