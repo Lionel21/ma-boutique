@@ -14,7 +14,22 @@
             veuillez <a
                     href="{{ path('account_address_add') }}">cliquer ici.</a></p>
     {% else %}
-        <p>AFFICHER DES ADRESSES</p>
+        <div class="row">
+            {% for address in app.user.addresses %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ address.name }}</h5>
+                            <p class="card-text">
+                                {{ address.address }} <br />
+                                {{ address.postcard }} - {{ address.city }} - {{ address.country }}
+                            </p>
+                            <a href="#">Modifier</a> | <a href="">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 
 {% endblock %}
