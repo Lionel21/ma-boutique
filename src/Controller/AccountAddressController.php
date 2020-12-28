@@ -79,4 +79,22 @@ class AccountAddressController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/compte/supprimer-une-adresse/{id}", name="account_address_delete")
+     */
+    public function delete($id): Response
+    {
+        // Récupération de l'id de l'adresse dans notre repository
+        $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
+
+        // Vérification de l'existence de l'adresse et si cette adresse est bien associée à l'utilisateur correspondant
+        if ($address && $address->getUser() == $this->getUser()) {
+            // Méthode pour supprimer un objet
+            $this->entityManager->remove($address);
+            $this->entityManager->flush();
+        }
+
+        return $this->redirectToRoute('account_address');
+    }
 }

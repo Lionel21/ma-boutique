@@ -21,10 +21,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ address.name }}</h5>
                             <p class="card-text">
-                                {{ address.address }} <br />
+                                {{ address.address }} <br/>
                                 {{ address.postcard }} - {{ address.city }} - {{ address.country }}
                             </p>
-                            <a href="{{ path('account_address_edit', { 'id' : address.id}) }}">Modifier</a> | <a href="">Supprimer</a>
+                            <a href="{{ path('account_address_edit', { 'id' : address.id}) }}">Modifier</a> | <a
+                                    href="{{ path('account_address_delete', { 'id' : address.id}) }}">Supprimer</a>
                         </div>
                     </div>
                 </div>
