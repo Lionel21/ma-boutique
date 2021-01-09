@@ -68,6 +68,13 @@ class Address
      */
     private $phone;
 
+    // Méthode magique pour transformer nos éléments en string
+    public function __toString()
+    {
+        // '[br]' => cf order/index.html.twig
+        return $this->getName() . '[br]' . $this->getAddress() . '[br]' . $this->getCity() . ' - ' . $this->getCountry();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

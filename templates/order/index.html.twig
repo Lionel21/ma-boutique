@@ -9,7 +9,13 @@
     <div class="row">
         <div class="col-md-6">
             <b>Choisir mon adresse de livraison</b> <br />
-            <b>Choisir mon transporteur</b>
+            {% set formHtml %}
+                {{ form(form) }}
+            {% endset %}
+
+            <!-- Remplacement du tableau [br] par des véritables sauts de lignes --->
+            {{ formHtml|replace({'[br]' : '<br />'})|raw }}
+
         </div>
         <div class="col-md-6">
             <b>Récapitulatif de ma commande</b> <br />
