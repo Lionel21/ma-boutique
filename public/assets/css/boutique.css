@@ -50,3 +50,8 @@ body {
     height: 20px;
     padding-left: 20px;
 }
+
+.block-small {
+    max-width: 60rem;
+    margin: 0 auto;
+}
