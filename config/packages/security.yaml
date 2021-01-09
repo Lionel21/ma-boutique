@@ -39,3 +39,4 @@ security:
 #        Toutes les url qui commencent par /compte doivent obligatoirement
 #        avoir le ROLE_USER
          - { path: ^/compte, roles: ROLE_USER }
+         - { path: ^/commande, roles: ROLE_USER }
