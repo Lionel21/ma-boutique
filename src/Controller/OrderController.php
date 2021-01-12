@@ -45,7 +45,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/commande/recapitulatif", name="order_resume")
+     * @Route("/commande/recapitulatif", name="order_resume", methods={"POST"})
      * Méthode pour créer la commande en base de données
      */
     public function add(Cart $cart, Request $request): Response
@@ -63,15 +63,15 @@ class OrderController extends AbstractController
             $delivery = $form->get('addresses')->getData();
             // Construction chaîne de caractères pour les données 'addresses'
             $delivery_content = $delivery->getFirstName() . ' ' . $delivery->getLastName();
-            $delivery_content .= PHP_EOL . $delivery->getPhone();
+            $delivery_content .= '<br />' . $delivery->getPhone();
 
             if ($delivery->getCompany()) {
-                $delivery_content .= PHP_EOL . $delivery->getCompany(); // Rappel => nom de l'entreprise = optionnel
+                $delivery_content .= '<br />' . $delivery->getCompany(); // Rappel => nom de l'entreprise = optionnel
             }
 
-            $delivery_content .= PHP_EOL . $delivery->getAddress();
-            $delivery_content .= PHP_EOL . $delivery->getPostcard() . ' ' . $delivery->getCity();
-            $delivery_content .= PHP_EOL . $delivery->getCountry();
+            $delivery_content .= '<br />' . $delivery->getAddress();
+            $delivery_content .= '<br />' . $delivery->getPostcard() . ' ' . $delivery->getCity();
+            $delivery_content .= '<br />' . $delivery->getCountry();
 
             // Enregistrement de la commande => entité Order()
             $order = new Order();
@@ -95,13 +95,18 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($orderDetails);
             }
 
-            $this->entityManager->flush();
+//            $this->entityManager->flush();
 
+            return $this->render('order/add.html.twig', [
+                'cart' => $cart->getFullCart(),
+                'carrier' => $carriers,
+                'delivery' => $delivery_content
+            ]);
         }
 
-        return $this->render('order/add.html.twig', [
-            'cart' => $cart->getFullCart()
-        ]);
+        return $this->redirectToRoute('cart');
+
+
     }
 
 }

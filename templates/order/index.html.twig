@@ -8,10 +8,11 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <b>Choisir mon adresse de livraison</b> <br />
             {% set formHtml %}
                 <!-- Action du formulaire qui s'exécutera dans la route 'order_resume' --->
                 {{ form_start(form, {action:path('order_resume')}) }}
+                    {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
+                <a href="{{ path('account_address_add') }}">Ajouter une nouvelle adresse</a>
                 {{ form_end(form) }}
             {% endset %}
 
@@ -26,7 +27,6 @@
             </div>
 
             <div class="order-summary">
-                <!-- key, => permet de compter la quantité de cart --->
                 {% for key, product in cart %}
                     <div class="row {% if key > 0 %} mt-2 {% endif %}">
                         <div class="col-2">
