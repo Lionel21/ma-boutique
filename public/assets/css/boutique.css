@@ -55,3 +55,19 @@ body {
     max-width: 60rem;
     margin: 0 auto;
 }
+
+.form-check {
+    background-color: #f4F8FF;
+    padding: 20px 65px;
+    margin-top: 7px;
+}
+
+.col-form-label {
+    font-weight: bold;
+}
+
+.order-summary {
+    background-color: #f4F8FF;
+    padding: 20px;
+    margin-top: 22px;
+}
