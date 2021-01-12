@@ -8,9 +8,12 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <b>Choisir mon adresse de livraison</b> <br />
             {% set formHtml %}
-                {{ form(form) }}
+                <!-- Action du formulaire qui s'exécutera dans la route 'order_resume' --->
+                {{ form_start(form, {action:path('order_resume')}) }}
+                    {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
+                <a href="{{ path('account_address_add') }}">Ajouter une nouvelle adresse</a>
+                {{ form_end(form) }}
             {% endset %}
 
             <!-- Remplacement du tableau [br] par des véritables sauts de lignes --->
@@ -18,8 +21,28 @@
 
         </div>
         <div class="col-md-6">
-            <b>Récapitulatif de ma commande</b> <br />
-            <b>Bouton pour payer</b>
+            <div class="text-center">
+                <b>Récapitulatif de ma commande</b> <br />
+                <p>Retrouvez le récapitulatif de vos produits.</p>
+            </div>
+
+            <div class="order-summary">
+                {% for key, product in cart %}
+                    <div class="row {% if key > 0 %} mt-2 {% endif %}">
+                        <div class="col-2">
+                            <img src="/uploads/images/products/{{ product.product.illustration }}"
+                                 alt="{{ product.product.name }}" height="75px"> <br/>
+                        </div>
+                        <div class="col-8 my-auto">
+                            {{ product.product.name }} <br />
+                            <small>{{ product.product.subtitle }}</small>
+                        </div>
+                        <div class="col-2 my-auto">
+                            x {{ product.quantity }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
