@@ -43,6 +43,6 @@ class Mailjet
         // Méthode post pour l'envoi de l'email
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         // Réponse renvoyée
-        $response->success() && dd($response->getData());
+        $response->success();
     }
 }
