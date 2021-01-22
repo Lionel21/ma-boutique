@@ -20,10 +20,10 @@ class OrderValidateController extends AbstractController
     /**
      * @Route("/commande/merci/{stripeSessionId}", name="order_validate")
      */
-    public function index(): Response
+    public function index($stripeSessionId): Response
     {
-        // On récupère notre commande (REVOIR LA METHODE DE FIND)
-        $order = $this->entityManager->getRepository(Order::class)->findOneBy([]);
+        // On récupère notre commande
+        $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
         // Vérification pour savoir si une commande existe et si l'utilisateur correspond à l'utilisateur actuel
         if (!$order || $order->getUser() != $this->getUser()) {
