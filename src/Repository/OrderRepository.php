@@ -18,4 +18,14 @@ class OrderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Order::class);
     }
+
+    public function findStripeSessionId()
+    {
+        $query = $this
+            ->createQueryBuilder('o')
+            ->select('o.stripeSessionId');
+
+        return $query->getQuery()->getResult();
+    }
+
 }
