@@ -61,7 +61,7 @@
             <strong>Total : </strong> {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €
 
 
-            <a href="#" class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
+            <a class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
 
         </div>
     </div>
@@ -74,9 +74,9 @@
         var checkoutButton = document.getElementById("checkout-button");
 
         checkoutButton.addEventListener("click", function () {
-            fetch("/create-checkout-session.php", {
-                method: "POST",
-            })
+                fetch("/commande/create-session", {
+                    method: "POST",
+                })
                 .then(function (response) {
                     return response.json();
                 })

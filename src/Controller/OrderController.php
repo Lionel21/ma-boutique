@@ -7,8 +7,6 @@ use App\Entity\Order;
 use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,9 +84,6 @@ class OrderController extends AbstractController
 
             $this->entityManager->persist($order);
 
-            $products_for_stripe = [];
-            $your_domain = 'http://127.0.0.1:8000';
-
             // Enregistrement des produits => entité OrderDetails()
             foreach ($cart->getFullCart() as $product) {
                 $orderDetails = new OrderDetails();
@@ -98,43 +93,14 @@ class OrderController extends AbstractController
                 $orderDetails->setPrice($product['product']->getPrice());
                 $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
-
-                // J'insère les données relatives aux produits sélectionnés que j'envoie à Stripe
-                $products_for_stripe[] = [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => $product['product']->getPrice(),
-                        'product_data' => [
-                            'name' => $product['product']->getName(),
-                            'images' => [$your_domain."/uploads/images/products/".$product['product']->getIllustration()],
-                        ],
-                    ],
-                    'quantity' => $product['quantity'],
-                ];
             }
 
-
 //            $this->entityManager->flush();
-
-            Stripe::setApiKey('sk_test_51IC9puBDBKaV4yhuUMRahk3QefTPFFRRNfMIMsJ2rt1t13LBuWqRCT83hcaKsoZ8TPMiGq34HKJC0FfEYAduWnpO000zn3xCw0');
-
-
-            $checkout_session = Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [
-                    // On transmet à Stripe la lsite des produits
-                    $products_for_stripe,
-                ],
-                'mode' => 'payment',
-                'success_url' => $your_domain . '/success.html',
-                'cancel_url' => $your_domain . '/cancel.html',
-            ]);
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFullCart(),
                 'carrier' => $carriers,
-                'delivery' => $delivery_content,
-                'stripe_checkout_session' => $checkout_session->id
+                'delivery' => $delivery_content
             ]);
         }
 
