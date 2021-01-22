@@ -69,9 +69,13 @@ class StripeController extends AbstractController
                 $products_for_stripe,
             ],
             'mode' => 'payment',
+            // Récupération de l'id de la session lors d'une commande
             'success_url' => $your_domain . '/commande/merci/{CHECKOUT_SESSION_ID}',
             'cancel_url' => $your_domain . '/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
+
+        $order->setStripeSessionId($checkout_session->id);
+        $entityManager->flush();
 
         $reponse = new JsonResponse(['id' => $checkout_session->id]);
         return $reponse;
