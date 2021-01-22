@@ -18,7 +18,7 @@ class OrderController extends AbstractController
 {
     private $entityManager;
 
-    public function  __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -86,9 +86,8 @@ class OrderController extends AbstractController
 
             $this->entityManager->persist($order);
 
-            $product_for_stripe = [];
-            $YOUR_DOMAIN = 'http://127.0.0.1:8000';
-
+            $products_for_stripe = [];
+            $your_domain = 'http://127.0.0.1:8000';
 
             // Enregistrement des produits => entité OrderDetails()
             foreach ($cart->getFullCart() as $product) {
@@ -101,16 +100,16 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($orderDetails);
 
                 // J'insère les données relatives aux produits sélectionnés que j'envoie à Stripe
-                $product_for_stripe[] = [
+                $products_for_stripe[] = [
                     'price_data' => [
-                        'currency' => 'euro',
+                        'currency' => 'eur',
                         'unit_amount' => $product['product']->getPrice(),
                         'product_data' => [
                             'name' => $product['product']->getName(),
-                            'images' => [$YOUR_DOMAIN . "/uploads/images/products/" . $product['product']->getIllustration()],
+                            'images' => [$your_domain."/uploads/images/products/".$product['product']->getIllustration()],
                         ],
                     ],
-                    'quantity' => $product['product'],
+                    'quantity' => $product['quantity'],
                 ];
             }
 
@@ -124,21 +123,18 @@ class OrderController extends AbstractController
                 'payment_method_types' => ['card'],
                 'line_items' => [
                     // On transmet à Stripe la lsite des produits
-                    $product_for_stripe
+                    $products_for_stripe,
                 ],
                 'mode' => 'payment',
-                'success_url' => $YOUR_DOMAIN . '/success.html',
-                'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+                'success_url' => $your_domain . '/success.html',
+                'cancel_url' => $your_domain . '/cancel.html',
             ]);
-
-            dump($checkout_session->id);
-            dd($checkout_session);
-
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFullCart(),
                 'carrier' => $carriers,
-                'delivery' => $delivery_content
+                'delivery' => $delivery_content,
+                'stripe_checkout_session' => $checkout_session->id
             ]);
         }
 

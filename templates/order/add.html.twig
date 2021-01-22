@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Paiement de ma commande!{% endblock %}
+{% block javascript %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block title %}Paiement de ma commande ! Ma Boutique{% endblock %}
 
 {% block content %}
     <h2>Mon récapitulatif</h2>
