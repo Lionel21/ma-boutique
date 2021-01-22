@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrderValidateController!{% endblock %}
+{% block title %}Confirmation de ma commande - Ma Boutique{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
+    <h2>Confirmation de commande</h2>
+    <p>
+        <!-- Rappel : relation entre les entités Order et User --->
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }}.</strong> <br />
+        Nous vous remercions pour votre commande  n° <strong>{{ order.reference }}</strong> <br />
+        Une confirmation vient de vous être envoyé par email à l'adresse <strong>{{ order.user.email }}</strong>
+    <hr>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    Votre commande sera livrée par <strong>{{ order.carrierName }}</strong> à l'adresse suivante <br />
+    {{ order.delivery|raw }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/lioneldelamare/Documents/Projets développement web/Ma Boutique/ma-boutique/src/Controller/OrderValidateController.php'|file_link(0) }}">src/Controller/OrderValidateController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/lioneldelamare/Documents/Projets développement web/Ma Boutique/ma-boutique/templates/order_validate/index.html.twig'|file_link(0) }}">templates/order_validate/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <hr>
+
+    Pour suivre votre commande, rendez-vous sur votre <a href="{{ path('account') }}">compte</a>
+
+
+    </p>
+
+
+
 {% endblock %}

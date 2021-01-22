@@ -22,8 +22,8 @@ class OrderValidateController extends AbstractController
      */
     public function index(): Response
     {
-        // On récupère notre commande
-        $order = $this->entityManager->getRepository(Order::class)->findStripeSessionId();
+        // On récupère notre commande (REVOIR LA METHODE DE FIND)
+        $order = $this->entityManager->getRepository(Order::class)->findOneBy([]);
 
         // Vérification pour savoir si une commande existe et si l'utilisateur correspond à l'utilisateur actuel
         if (!$order || $order->getUser() != $this->getUser()) {
