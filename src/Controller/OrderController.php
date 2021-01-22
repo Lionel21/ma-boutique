@@ -16,7 +16,7 @@ class OrderController extends AbstractController
 {
     private $entityManager;
 
-    public function  __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
@@ -95,7 +95,7 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($orderDetails);
             }
 
-            $this->entityManager->flush();
+//            $this->entityManager->flush();
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFullCart(),
