@@ -30,8 +30,21 @@ class OrderValidateController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+
+
         // TODO : modifier le status isPaid de notre commande en mettant le statut à 1
-        // TODO 2 : envoyer un email à notre client pour lui confirmer sa commande
+
+        // Modification si le status est à zéro
+        if (!$order->getIsPaid()) {
+            // Modification du statut isPaid() à notre commande
+            $order->setIsPaid(1);
+            // Mise à jour côté Doctrine
+            $this->entityManager->flush();
+
+            // TODO 2 : envoyer un email à notre client pour lui confirmer sa commande
+        }
+
+
         // TODO 3 : afficher les quelques informations de la commande de l'utilisateur
         dd($order);
 
