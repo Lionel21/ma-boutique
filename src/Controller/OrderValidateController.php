@@ -30,8 +30,6 @@ class OrderValidateController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-
-
         // TODO : modifier le status isPaid de notre commande en mettant le statut à 1
 
         // Modification si le status est à zéro
@@ -44,10 +42,9 @@ class OrderValidateController extends AbstractController
             // TODO 2 : envoyer un email à notre client pour lui confirmer sa commande
         }
 
-
-        // TODO 3 : afficher les quelques informations de la commande de l'utilisateur
-        dd($order);
-
-        return $this->render('order_validate/index.html.twig');
+        return $this->render('order_validate/index.html.twig', [
+            // TODO 3 : afficher les quelques informations de la commande de l'utilisateur
+            'order' => $order
+        ]);
     }
 }
