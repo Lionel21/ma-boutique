@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Classe\Cart;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,12 +21,12 @@ class OrderValidateController extends AbstractController
     /**
      * @Route("/commande/merci/{stripeSessionId}", name="order_validate")
      */
-    public function index($stripeSessionId): Response
+    public function index(Cart $cart, $stripeSessionId): Response
     {
         // On récupère notre commande
         $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
-        // Vérification pour savoir si une commande existe et si l'utilisateur correspond à l'utilisateur actuel
+        // TODO : vérification pour savoir si une commande existe et si l'utilisateur correspond à l'utilisateur actuel
         if (!$order || $order->getUser() != $this->getUser()) {
             return $this->redirectToRoute('home');
         }
@@ -34,16 +35,19 @@ class OrderValidateController extends AbstractController
 
         // Modification si le status est à zéro
         if (!$order->getIsPaid()) {
-            // Modification du statut isPaid() à notre commande
+            // TODO : vider la session cart (panier de l'utilisateur)
+            $cart->remove();
+
+            // TODO : modification du statut isPaid() à notre commande
             $order->setIsPaid(1);
-            // Mise à jour côté Doctrine
+            // TODO : mise à jour côté Doctrine
             $this->entityManager->flush();
 
-            // TODO 2 : envoyer un email à notre client pour lui confirmer sa commande
+            // TODO : envoyer un email à notre client pour lui confirmer sa commande
         }
 
         return $this->render('order_validate/index.html.twig', [
-            // TODO 3 : afficher les quelques informations de la commande de l'utilisateur
+            // TODO : afficher les quelques informations de la commande de l'utilisateur
             'order' => $order
         ]);
     }
