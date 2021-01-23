@@ -9,8 +9,11 @@
 
     <hr>
 
-    <a href="{{ path('account_password') }}">- Modifier mon mot de passe</a> <br />
-    <a href="{{ path('account_address') }}">- Gérer mes adresses</a> <br />
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="/admin">- Vous êtes administrateur : accéder au backoffice</a> <br />
+    {% endif %}
+    <a href="{{ path('account_password') }}">- Modifier mon mot de passe</a> <br/>
+    <a href="{{ path('account_address') }}">- Gérer mes adresses</a> <br/>
     <a href="{{ path('account_order') }}">- Mes commandes</a>
 
     <hr>
