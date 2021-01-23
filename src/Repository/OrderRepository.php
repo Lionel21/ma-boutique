@@ -44,5 +44,4 @@ class OrderRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

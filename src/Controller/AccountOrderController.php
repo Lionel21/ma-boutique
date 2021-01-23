@@ -19,15 +19,31 @@ class AccountOrderController extends AbstractController
 
     /**
      * @Route("/compter/mes-commandes", name="account_order")
-     * Affichage des commandes dans l'ineterface utilisateur
+     * Affichage des listes des commandes passées dans l'interface utilisateur
      */
     public function index(): Response
     {
         $orders = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser());
 
-
         return $this->render('account/order.html.twig', [
             'orders' => $orders
+        ]);
+    }
+
+    /**
+     * @Route("/compter/mes-commandes/{reference}", name="account_order_show")
+     * Affichage d'une référence de commande lié à l'utilisateur
+     */
+    public function show($reference): Response
+    {
+        $order = $this->entityManager->getRepository(Order::class)->findOneByReference($reference);
+
+        if (!$order || $order->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('account_order');
+        }
+
+        return $this->render('account/order_show.html.twig', [
+            'order' => $order
         ]);
     }
 }
