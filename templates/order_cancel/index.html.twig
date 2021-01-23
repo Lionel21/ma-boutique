@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Echec de ma commande - Ma Boutique{% endblock %}
+
+{% block content %}
+
+    <h2>Echec de commande</h2>
+    <p>
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }},</strong> <br /> <br />
+        Nous vous informons que le paiement pour votre commande  n° <strong>{{ order.reference }}</strong> a échoué <br />
+        Une confirmation d'erreur vient de vous être envoyée par email à l'adresse <strong>{{ order.user.email }}</strong>
+    </p>
+    <a href="{{ path('order') }}" class="btn btn-success">Réessayer le paiement</a>
+
+
+{% endblock %}
