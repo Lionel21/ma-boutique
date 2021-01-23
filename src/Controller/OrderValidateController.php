@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Controller\Classe\Cart;
+use App\Controller\Classe\Mailjet;
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +46,9 @@ class OrderValidateController extends AbstractController
             $this->entityManager->flush();
 
             // TODO : envoyer un email à notre client pour lui confirmer sa commande
+            $mail = new Mailjet();
+            $content = "Bonjour " . $order->getUser()->getFirstName() . "<br /> Merci pour votre commande <br /> <br /> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolores ea eaque illum incidunt maiores neque nihil porro provident reprehenderit! Cumque ipsa iure quidem vel? Iure placeat saepe soluta tempora?";
+            $mail->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Votre commande Ma Boutique a bien été validée.', $content);
         }
 
         return $this->render('order_validate/index.html.twig', [

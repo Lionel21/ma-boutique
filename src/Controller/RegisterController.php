@@ -38,7 +38,6 @@ class RegisterController extends AbstractController
 
             // Récupération de la liste des emails pour chaque utilisateur
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
-//            dd($search_email);
 
             if (!$search_email) {
                 // encodePassword (Objet User, Mot de Passe à encoder)
@@ -58,8 +57,6 @@ class RegisterController extends AbstractController
             } else {
                 $notification = "L'email que vous avez renseigné existe déjà.";
             }
-
-
 
         }
 
