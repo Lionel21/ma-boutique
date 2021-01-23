@@ -3,30 +3,32 @@
 {% block title %}Mes commandes - Ma Boutique{% endblock %}
 
 {% block content %}
-    <h1>Mes adresses</h1>
+    <h1>Mes commandes</h1>
     <p>C'est dans cet espace que vous allez pouvoir gérer toutes vos commandes.</p>
     <a href="{{ path('account') }}">Retour</a>
-    <hr>
-    <!-- length => compter le nombre d'adresses --->
-    {% if app.user.orders|length == 0 %}
+    {% if orders|length == 0 %}
+        <hr>
         <p class="text-center">Vous n'avez pas encore passé de commandes sur Ma Boutique.
     {% else %}
-        <table class="table">
+        <table class="table mt-4">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Référence</th>
+                <th scope="col">Passé le</th>
+                <th scope="col">Produit(s)</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            {% for order in app.user.orders %}
+            {% for order in orders %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td><span class="badge badge-secondary">{{ order.reference }}</span></td>
+                    <td>{{ order.createAt|date('d/m/Y') }}</td>
+                    <td>{{ order.orderDetails|length }}</td>
+                    <!-- Je reprends ma méthode getTotal() de mon entité Order() pour effectuer le calcul --->
+                    <td>{{ ((order.carrierPrice + order.getTotal) / 100)|number_format(2, ',', '.') }} €</td>
+                    <td class="text-right"><a href="#">Voir ma commande</a></td>
                 </tr>
             {% endfor %}
             </tbody>
