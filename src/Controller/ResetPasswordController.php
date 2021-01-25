@@ -71,6 +71,23 @@ class ResetPasswordController extends AbstractController
      */
     public function update(Request $request, $token)
     {
-        dd($token);
+        // Récupération du token
+        $reset_password = $this->entityManager->getRepository(ResetPassword::class)->findOneByToken($token);
+
+        if (!$reset_password) {
+            return $this->redirectToRoute('reset_password');
+        }
+
+        // TODO : vérifier si le createdAt < 3 heures (délai de 3 heures pour pouvoir réinitialiser le mot de passe)
+        $currentTime = new \DateTime();
+        if ($currentTime >  $reset_password->getcreatedAt()->modify('+ 3 hours')) {
+            // Temps de réinitialisation expiré
+            $this->addFlash('notice', 'Votre demande de réinitialisation de mot de passe a expiré. Merci de la renouveler');
+            return $this->redirectToRoute('reset_password');
+        }
+
+
+
+        dd($reset_password);
     }
 }
