@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\Classe\Mailjet;
 use App\Entity\ResetPassword;
 use App\Entity\User;
+use App\Form\ResetPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +89,16 @@ class ResetPasswordController extends AbstractController
         }
 
         // TODO : rendre une vue avec mot de passe et confirmation de changement de mot de passe
+        $form = $this->createForm(ResetPasswordType::class);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
+
+        return $this->render('reset_password/update.html.twig', [
+            'form' => $form->createView()
+        ]);
 
         // TODO : encodage des mots de passe
 
