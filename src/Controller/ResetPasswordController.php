@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ResetPasswordController extends AbstractController
 {
@@ -71,7 +72,7 @@ class ResetPasswordController extends AbstractController
     /**
      * @Route("/modifier-mon-mot-de-passe/{token}", name="update_password")
      */
-    public function update(Request $request, $token)
+    public function update(Request $request, $token, UserPasswordEncoderInterface $encoder)
     {
         // Récupération du token
         $reset_password = $this->entityManager->getRepository(ResetPassword::class)->findOneByToken($token);
@@ -93,20 +94,23 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $new_password = $form->get('new_password')->getData();
 
+            // TODO : encodage des mots de passe
+            $password = $encoder->encodePassword($reset_password->getUser(), $new_password);
+            $reset_password->getUser()->setPassword($password);
+
+            // TODO : flush en base de données
+            $this->entityManager->flush();
+
+            // TODO : redirection de l'utilisateur vers la page de connexion
+            $this->addFlash('notice', 'Votre mot de passe a bien été mise à jour.');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('reset_password/update.html.twig', [
             'form' => $form->createView()
         ]);
 
-        // TODO : encodage des mots de passe
-
-        // TODO : flush en base de données
-
-        // TODO : redirection de l'utilisateur vers la page de connexion
-
-
-        dd($reset_password);
     }
 }
