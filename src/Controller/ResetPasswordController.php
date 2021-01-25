@@ -57,9 +57,10 @@ class ResetPasswordController extends AbstractController
                 $content .= "Merci de bien vouloir cliquer sur le lien suivant pour <a href='".$url."'> mettre à jour votre mot de passe.</a>";
 
                 $mail = new Mailjet();
-
-
                 $mail->send($user->getEmail(), $user->getFirstname() . ' ' . $user->getLastname(), 'Réinitialiser votre mot de passe sur Ma Boutique', $content);
+                $this->addFlash('notice', 'Vous allez recevoir un email avec la procédure pour réinitialiser votre mot de passe.');
+            } else {
+                $this->addFlash('notice', 'Cette adresse email est inconnue.');
             }
         }
 
@@ -86,6 +87,14 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('reset_password');
         }
 
+        // TODO : rendre une vue avec mot de passe et confirmation de changement de mot de passe
+
+
+        // TODO : encodage des mots de passe
+
+        // TODO : flush en base de données
+
+        // TODO : redirection de l'utilisateur vers la page de connexion
 
 
         dd($reset_password);
