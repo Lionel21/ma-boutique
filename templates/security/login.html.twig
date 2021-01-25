@@ -10,6 +10,10 @@
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+
             {% if app.user %}
                 <div class="mb-3">
                     You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
@@ -26,21 +30,11 @@
                    value="{{ csrf_token('authenticate') }}"
             >
 
-            {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
-            </div>
-            #}
-
             <button class="btn btn-lg btn-info btn-block mt-3" type="submit">
                 Se connecter
             </button>
             <hr>
+            <p class="text-center"><a href="{{ path('reset_password') }}">Mot de passe oublié</a></p>
             <p class="text-center">Ou souhaitez-vous <a href="{{ path('register') }}">créer un compte</a></p>
         </form>
     </div>

@@ -61,15 +61,6 @@ class RegisterType extends AbstractType
                     ]
                 ],
             ])
-            // Confirmatin mot de passe
-//            ->add('password_confirm', PasswordType::class, [
-//                'label' => 'Confirmez votre mot de passe',
-//                // Ne pas lier la propriété à l'entité User
-//                'mapped' => false,
-//                'attr' => [
-//                    'placeholder' => 'Confirmez votre mot de passe'
-//                ]
-//            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire'
             ]);
