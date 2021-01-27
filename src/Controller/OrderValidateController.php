@@ -35,13 +35,13 @@ class OrderValidateController extends AbstractController
 
         // TODO : modifier le status isPaid de notre commande en mettant le statut à 1
 
-        // Modification si le status est à zéro
-        if (!$order->getIsPaid()) {
+        // Modification si le statut est à zéro
+        if ($order->getState() == 0) {
             // TODO : vider la session cart (panier de l'utilisateur)
             $cart->remove();
 
-            // TODO : modification du statut isPaid() à notre commande
-            $order->setIsPaid(1);
+            // TODO : modification du statut de notre commande : paiement accepté
+            $order->setState(1);
             // TODO : mise à jour côté Doctrine
             $this->entityManager->flush();
 

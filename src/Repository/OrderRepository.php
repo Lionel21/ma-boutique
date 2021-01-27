@@ -36,7 +36,7 @@ class OrderRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('o')
             // Uniquement les commandes payées
-            ->andWhere('o.isPaid = 1')
+            ->andWhere('o.state > 0')
             // Uniquement à l'utilisateur associé
             ->andWhere('o.user = :user')
             ->setParameter('user', $user)
