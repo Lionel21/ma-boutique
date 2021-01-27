@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\Classe\Mailjet;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -44,10 +45,12 @@ class OrderCrudController extends AbstractCrudController
     {
         // Personnalisation statut des commandes
         // linkToCrudAction() : permet de faire un lien avec une méthode
-        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours')->linkToCrudAction('updatePreparation');
+        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours', 'fas fa-box-open')->linkToCrudAction('updatePreparation');
+        $updateDelivery = Action::new('updateDelivery', 'Livraison en cours', 'fas fa-truck')->linkToCrudAction('updateDelivery');
 
         return $actions
             ->add('detail', $updatePreparation)
+            ->add('detail', $updateDelivery)
             // Indication de la route et le nom de l'action
             ->add('index', 'detail');
     }
@@ -63,6 +66,26 @@ class OrderCrudController extends AbstractCrudController
         $this->entityManager->flush();
 
         $this->addFlash('notice', "<span style='color: green;'><strong>La commande ".$order->getReference()." est bien <u>en cours de préparation</u></strong></span>");
+
+        // Redirection de notre utilisateur vers la vue index
+        $url = $this->crudUrlGenerator->build()
+            // Indication du Controller où nous nous situons
+            ->setController(OrderCrudController::class)
+            // Action désirée => vue index
+            ->setAction('index')
+            ->generateUrl();
+
+        return $this->redirect($url);
+    }
+
+    public function updateDelivery(AdminContext $context)
+    {
+        // Je récupère mon entité
+        $order = $context->getEntity()->getInstance();
+        $order->setState(3);
+        $this->entityManager->flush();
+
+        $this->addFlash('notice', "<span style='color: lightblue;'><strong>La commande ".$order->getReference()." est bien <u>en cours de livraison</u></strong></span>");
 
         // Redirection de notre utilisateur vers la vue index
         $url = $this->crudUrlGenerator->build()
