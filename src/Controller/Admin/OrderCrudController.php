@@ -3,19 +3,33 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 
 class OrderCrudController extends AbstractCrudController
 {
+    private $entityManager;
+
+    // Permet de gérer l'url de redirection une fois le traitement effectué dans la méthode updatePreparation()
+    private $crudUrlGenerator;
+
+    public function __construct(EntityManagerInterface $entityManager, CrudUrlGenerator $crudUrlGenerator)
+    {
+        $this->entityManager = $entityManager;
+        $this->crudUrlGenerator = $crudUrlGenerator;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Order::class;
@@ -28,9 +42,37 @@ class OrderCrudController extends AbstractCrudController
      */
     public function configureActions(Actions $actions): Actions
     {
+        // Personnalisation statut des commandes
+        // linkToCrudAction() : permet de faire un lien avec une méthode
+        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours')->linkToCrudAction('updatePreparation');
+
         return $actions
+            ->add('detail', $updatePreparation)
             // Indication de la route et le nom de l'action
             ->add('index', 'detail');
+    }
+
+    /**
+     * Méthode pour modifier notre entité Order() avec la méthode AdminContext
+     */
+    public function updatePreparation(AdminContext $context)
+    {
+        // Je récupère mon entité
+        $order = $context->getEntity()->getInstance();
+        $order->setState(2);
+        $this->entityManager->flush();
+
+        $this->addFlash('notice', "<span style='color: green;'><strong>La commande ".$order->getReference()." est bien <u>en cours de préparation</u></strong></span>");
+
+        // Redirection de notre utilisateur vers la vue index
+        $url = $this->crudUrlGenerator->build()
+            // Indication du Controller où nous nous situons
+            ->setController(OrderCrudController::class)
+            // Action désirée => vue index
+            ->setAction('index')
+            ->generateUrl();
+
+        return $this->redirect($url);
     }
 
     /**
