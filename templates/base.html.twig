@@ -62,13 +62,15 @@
 
             <div class="navbar__item-custom">
                 {% if app.user %}
-                    <a href="{{ path('account') }}">Mon compte <small>({{ app.user.firstname }})</small> </a> | <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    <a href="{{ path('account') }}">Mon compte <small>({{ app.user.firstname }})</small> </a> | <a
+                        href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a href="{{ path('app_login') }}">Connexion</a> | <a href="{{ path('register') }}">Inscription</a>
                 {% endif %}
             </div>
             <a href="{{ path('cart') }}">
-                <img src="{{ asset('assets/images/shopping-cart.png') }}" class="cart-icon" alt="Accéder à votre panier.">
+                <img src="{{ asset('assets/images/shopping-cart.png') }}" class="cart-icon"
+                     alt="Accéder à votre panier.">
             </a>
 
         </div>
@@ -80,21 +82,23 @@
     {% if (block('carousel') is defined) %}
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
+                {% for key, header in headers %} <!-- Affichage de la clé d'itération --->
+                    <li data-target="#myCarousel" data-slide-to="{{ key }}" {% if key == 0 %} class="active"{% endif %}></li>
+                {% endfor %}
             </ol>
             <div class="carousel-inner">
-                {% for header in headers %}
-                <div class="carousel-item active" style="background: url('/uploads/images/products/{{ header.illustration }}'); background-size: cover">
-                    <div class="container">
-                        <div class="carousel-caption text-left">
-                            <h1>{{ header.title }}</h1>
-                            <p>{{ header.content }}</p>
-                            <p><a class="btn btn-lg btn-primary" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a></p>
+                {% for key, header in headers %}
+                    <div class="carousel-item {% if key == 0 %} active {% endif %}"
+                         style="background: url('/uploads/images/products/{{ header.illustration }}'); background-size: cover">
+                        <div class="container">
+                            <div class="carousel-caption text-left">
+                                <h1>{{ header.title }}</h1>
+                                <p>{{ header.content }}</p>
+                                <p><a class="btn btn-lg btn-info" href="{{ header.btnUrl }}"
+                                      role="button">{{ header.btnTitle }}</a></p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
             <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
@@ -126,8 +130,8 @@
     <!-- FOOTER -->
     <footer class="footer__custom">
         <p>
-            &copy; 2017-2020 Ma boutique <br />
-            <small>La boutique 100 % made in France</small> <br />
+            &copy; 2017-2020 Ma boutique <br/>
+            <small>La boutique 100 % made in France</small> <br/>
             <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
     </footer>
 </main>
