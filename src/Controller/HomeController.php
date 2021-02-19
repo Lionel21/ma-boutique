@@ -25,7 +25,6 @@ class HomeController extends AbstractController
     {
         $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1); // Uniquement les booléens = 1
         $headers = $this->entityManager->getRepository(Header::class)->findAll();
-        dd($headers);
 
         return $this->render('home/index.html.twig', [
             'products' => $products,
