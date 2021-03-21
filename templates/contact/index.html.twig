@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter - Ma Boutique{% endblock %}
+
+{% block content %}
+
+    <h2>Nous contacter</h2>
+    <p>N'hésitez pas à prendre contact avec notre équipe, nous vous répondrons dans les meilleurs délais.</p>
+
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+
+    <!-- Formulaire de contact --->
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(form) }}
+        </div>
+        <div class="col-md-4">
+            <strong>Ma Boutique</strong>
+            <hr>
+            <p>06 12 13 14 15</p> <br />
+            <p>8 rue Charles de Gaulle, 45000 Orléans</p> <br />
+            <p>contact@maboutique.fr</p>
+        </div>
+    </div>
+
+
+{% endblock %}
