@@ -29,12 +29,13 @@ class ProductCrudController extends AbstractCrudController
             // setTargetFieldName -> permet au slug de se baser sur le nom du produit pour générer un slug
             SlugField::new('slug')->setTargetFieldName('name'),
             ImageField::new('illustration')
-                // Chemin pour les uploads d'images
+                // Chemin pour les uploads d'images (obligation d'indiquer le chemin complet)
                 ->setUploadDir('public/uploads/images/products')
                 // J'indique à EasyAdmin où chercher les images
                 ->setBasePath('uploads/images/products')
-                ->setUploadedFileNamePattern('[contenthash].[extension]')
-                ->setFormTypeOptions(['required' => false]),
+                // Méthode qui permet d'encoder le nom de nos fichiers images
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),
             TextField::new('subtitle'),
             TextareaField::new('description'),
             BooleanField::new('isBest'),
