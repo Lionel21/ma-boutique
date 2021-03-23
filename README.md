@@ -1,5 +1,6 @@
 # Ma Boutique
+ 
+- Personal project centered on an e-commerce website, entirely developed on PHP 7.2 and Symfony 5.
 
-- Projet personnel centré sur la constitution d'un site e-commerce et qui me permet de tester les fonctionnalités de
-  Symfony 5, ainsi que quelques bundles, notamment EasyAdmin, Mailjet et l'API Stripe pour le traitement des paiements
-  en ligne.
+
+- This project allows me to test some other functionalities and bundles, especially EasyAdmin, Stripe API and Mailjet.
